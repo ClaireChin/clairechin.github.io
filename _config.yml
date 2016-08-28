@@ -84,6 +84,6 @@ featured-condition-size: 1              # A tag will be featured if the size of 
 friends: [
     {
         title: "豆米",
-        href: "http://www.5udou.cn"
+        href: "http://blog.5udou.cn/"
     }
 ]
