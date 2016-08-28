@@ -15,7 +15,7 @@ tags:
 <h2>{{ page.title }}</h2>
 <h3>前言</h3>
 <p>最近突然想起来，在工作上学习和使用linux操作系统应该也有大半年的光景了，虽说vim模式用得仍像坨shit，但是学习就是不断总结和分析的过程，因此就算腆着一张门外汉的老脸也要拼着留下些记录来。
-总结下来就是这将是一篇杂乱无章的linux命令记录文和路径分析文</p>
+总结下来就是这将是一篇杂乱无章的linux命令记录文和路径分析文。</p>
 
 <h3>Linux命令记录</h3>
 <ul>
@@ -26,7 +26,7 @@ tags:
     <p>简略的来说，cat主要有三大功能：</p>
     <td colspan=#>
     <table border=1>
-    <tr><td colspan=3>关于cat</td>
+    <tr><td colspan=4>关于cat</td>
     <tr>
         <td>功能</td>
         <td>一次显示整个文件</td>       
@@ -39,9 +39,14 @@ tags:
         <td>cat file1 file2 > file</td>
     </table>
     <p>其中，从键盘创建文件时，只能创建新文件,不能编辑已有文件。当然，如果要详细了解cat的使用规则，是可以man cat的哈。</p>
-    <li>euform-describe-stacks</li>
-    <li>euform-delete-stack</li>
     <li>export</li>
+    <p>设置或显示环境变量。以我最近的经历为例，我需要使用centos下安装的一个软件what（当然使用某个命令也是一样的道理），
+    但这个软件/命令的执行文件不在当前目录，于是我每天创建并登陆虚拟机后都必须指定执行文件的目录，很麻烦，
+    如果在.bashrc中加入export LD_LIBRARY_PATH="xxx/yyy/..."，就相当于告诉程序，我需要使用what软件时，
+    需要的文件或相关的一些东西在这个目录里下。</p>
+    <li>echo</li>
+    <p>echo命令的功能是在显示器上显示一段文字，一般起到一个提示的作用。比如，上一条export命令的示例中，
+    可以使用$echo $LD_LIBRARY_PATH来查看LD_LIBRARY_PATH的内容。</p>
     <li>ls</li>
     <li>pwd</li>
     <li>tail</li>
