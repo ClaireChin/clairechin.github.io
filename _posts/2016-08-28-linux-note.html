@@ -13,6 +13,45 @@ tags:
 ---
 
 <h2>{{ page.title }}</h2>
-<p>最近突然想起来，在工作上学习和使用linux操作系统应该也有大半年的光景了，虽说vim模式用得仍像坨shit，但是学习就是不断总结和分析的过程，因此
-就算腆着一张门外汉的老脸也要拼着留下些记录来。</p>
+<h3>前言</h3>
+<p>最近突然想起来，在工作上学习和使用linux操作系统应该也有大半年的光景了，虽说vim模式用得仍像坨shit，但是学习就是不断总结和分析的过程，因此就算腆着一张门外汉的老脸也要拼着留下些记录来。
+总结下来就是这将是一篇杂乱无章的linux命令记录文和路径分析文</p>
+
+<h3>Linux命令记录</h3>
+<ul>
+    <li>man</li>
+    <p>这条命令必须不顾字母顺序排在最前面。Linux提供了丰富的帮助手册，当你需要查看某个命令的参数时不必到处上网查找，只要man一下即可。
+    例如，man cat，当然，要进一步了解man的话，直接man man就可以啦。</p>
+    <li>cat</li>
+    <p>简略的来说，cat主要有三大功能：</p>
+    <td colspan=#>
+    <table border=1>
+    <tr><td colspan=3>关于cat</td>
+    <tr>
+        <td>功能</td>
+        <td>一次显示整个文件</td>       
+        <td>从键盘创建一个文件</td></td>  
+        <td>将几个文件合并为一个文件</td>
+    <tr>
+        <td>命令</td>
+        <td>cat filename</td>
+        <td>cat > filename</td>
+        <td>cat file1 file2 > file</td>
+    </table>
+    <p>其中，从键盘创建文件时，只能创建新文件,不能编辑已有文件。当然，如果要详细了解cat的使用规则，是可以man cat的哈。</p>
+    <li>euform-describe-stacks</li>
+    <li>euform-delete-stack</li>
+    <li>export</li>
+    <li>ls</li>
+    <li>pwd</li>
+    <li>tail</li>
+    <li>tcpdump</li>
+    <li>top</li>
+    <li>ssh</li>
+    <li>source</li>
+    <li>where</li>
+    <li>whoami</li>
+</ul>
+
+<h3>Linux根目录下的一些文件含义</h3>
 
