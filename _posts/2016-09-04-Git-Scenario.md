@@ -11,7 +11,7 @@ tags:
     - command
     - develop
 ---
->这是对我在工作中遇到的一些git命令使用场景的归纳和总结，所有的命令都已经经过我的实践，如有不妥之处，敬请指出。
+>这是对我在工作中遇到的一些git命令使用场景的归纳和总结，所有的命令都已经过实践，如有不妥之处，敬请指出。
 
 # Git Scenario
 
@@ -99,31 +99,35 @@ git stash list命令可以将当前的Git栈信息打印出来，你只需要将
 对应的git命令会在第二部分的场景2和场景3中有详细介绍。
 * svn commit
 <br>在git add, git commit, git rebase进行成功之后可以使用git push将代码push到Gerrit上。
-<br>关于push命令，可以理解一下：    
+
+### 2. 关于push命令
+在clone完成之后，Git会自动为你将此远程仓库命名为origin（origin只相当于一个别名，运行git remote–v或者查看.git/config可以看到origin的含义），并下载其中所有的数据，建立一个指向它的master分支的指针，我们用(远程仓库名)/(分支名) 这样的形式表示远程分支，所以origin/master指向的是一个remote branch（从那个branch我们clone数据到本地），但你无法在本地更改其数据。同时，Git会建立一个属于你自己的本地master 分支，它指向的是你刚刚从remote server传到你本地的副本。随着你不断的改动文件，git add, git commit，master的指向会自动移动，你也可以通过merge（fast forward）来移动master的指向。
+
     （1） origin/master：origin远程库（remote repository）的master分支;
-    <br>（2） HEAD指向当前工作的branch，master不一定指向当前工作的branch；
-    <br>（3） git push origin 本地分支A : 远程分支B //push 本地分支A到远程库origin的分支B。
-<br>
-<br>在clone完成之后，Git会自动为你将此远程仓库命名为origin（origin只相当于一个别名，运行git remote–v或者查看.git/config可以看到origin的含义），并下载其中所有的数据，建立一个指向它的master分支的指针，我们用(远程仓库名)/(分支名) 这样的形式表示远程分支，所以origin/master指向的是一个remote branch（从那个branch我们clone数据到本地），但你无法在本地更改其数据。同时，Git会建立一个属于你自己的本地master 分支，它指向的是你刚刚从remote server传到你本地的副本。随着你不断的改动文件，git add, git commit，master的指向会自动移动，你也可以通过merge（fast forward）来移动master的指向。
-<br>
-<br>一些git push命令的介绍：
-<br>git push origin master:master 
+    （2） HEAD指向当前工作的branch，master不一定指向当前工作的branch；
+    （3） git push origin 本地分支A : 远程分支B //push 本地分支A到远程库origin的分支B。
+    
+一些git push命令的介绍：
+* git push origin master:master 
 <br>//在local repository中找到名字为master的branch，使用它去更新remote repository下名字为master的branch，如果remote repository下不存在名字是master的branch，那么新建一个。
-<br>
-<br>git push origin master     
-<br>//省略<dst>等价于”git push origin master:master”。
-<br>
-<br>git push origin master:refs/for/mybranch 
+* git push origin master     
+//省略<dst>等价于*git push origin master:master*。
+* git push origin master:refs/for/mybranch 
 <br>//在local repository中找到名字为master的branch，用它去更新remote repository下面名字为mybranch的branch。
-<br>
-<br>git push origin HEAD:refs/for/mybranch
+* git push origin HEAD:refs/for/mybranch
 <br>//HEAD指向当前工作的branch，master不一定指向当前工作的branch，推荐使用。
-<br>
-<br>git push origin    :mybranch 
+* git push origin    :mybranch 
 <br>//在origin repository里面查找mybranch，删除它。用一个空的去更新它，就相当于删除了。
-<br>
-<br>通常不建议使用git pull，具体原因可以查看下面的网址，
+
+通常不建议使用git pull，具体原因可以查看下面的网址，
 <br>git fetch and merge, don't pull (http://www.oschina.net/translate/git-fetch-and-merge?cmp)。
+
+## 主要使用场景
+### Scenario 1
+### Scenario 2
+### Scenario 3
+### Scenario 4
+### Scenario 5
 
 ------
 
