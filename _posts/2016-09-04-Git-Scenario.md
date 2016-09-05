@@ -123,11 +123,104 @@ git stash list命令可以将当前的Git栈信息打印出来，你只需要将
 <br>git fetch and merge, don't pull (http://www.oschina.net/translate/git-fetch-and-merge?cmp)。
 
 ## 主要使用场景
-### Scenario 1
-### Scenario 2
-### Scenario 3
-### Scenario 4
-### Scenario 5
+### a. Scenario 1
+
+场景描述：Gerrit上没有需要review的代码，当前的工作目录的修改可能是基于最新版本的代码或者与最新版本的代码已经差了好几个他人提交的submit，准备提交工作目录的修改到Gerrit上。
+<br>在当前master分支上基于某个版本进行了修改，<br>
+```command
+    git add .                                //添加所有的修改文件到index中
+    git commit                               //将index中的内容提交到local repository中
+    git fetch                                //将remote repository的内容获取到local repository
+    git rebase origin/master 
+```
+进行rebase时会有以下两种情况，
+* case 1
+<br>在输入git rebase origin/master 后提示“Current branch master is up to date.”，这种情况说明没有冲突产生，并且rebase成功完成，直接输入git push origin HEAD:refs/for/master，将代码push到remote repository。
+* case 2
+<br>提示有冲突产生，并且在括号内的master后面有rebase进度提示，此时，依次输入命令，
+```command
+    git mergetool                            //在未安装并设置其他merge tool的情况下会默认使用tortoisemerge
+                                             //在tortoisemerge工具下解决冲突并保存修改，关闭tortoisemerge窗口
+    git rebase --continue
+    git status                               //查看是否因为使用merge tool而产生了一些.orig文件
+    git clean -nf                            //查看并确认哪些文件将被删除
+    git clean -f                             //删除这些untratced且不需要git add的文件
+    git push origin HEAD:refs/for/master      
+```
+此处补充mergetool的安装步骤，可使用的合并工具有tortoisemerge，kdiff3，meld等。
+以使用kdiff3作为merge工具为例，
+```command
+    git config --global merge.tool KDiff3    //配置merge工具
+```
+如果提示"The merge tool KDiff3 is not available as 'KDiff3', 说明此机或当前terminal上并未安装KDiff3，可以将以下内容复制到.git/config文件中，
+```setting
+    [merge]
+    tool = kdiff3
+
+    [mergetool "kdiff3"]
+        path = C:/Program Files/KDiff3/kdiff3.exe
+        keepBackup = false
+    trustExitCode = false
+```
+同样地，如果想设置git diff的tool，
+```command
+    git config --global diff.tool KDiff3
+```
+然后在.git/config文件中输入，
+```setting
+    [diff]
+            tool = kdiff3
+            guitool = kdiff3
+    [difftool "kdiff3"]
+            path = c:/Program Files/KDiff3/kdiff3.exe
+```
+diff工具也可以配置成KBeyond Compare 4。
+<br>如何理解KDiff3中的base，local和remote，以及tortoisemerge中的mine和theirs概念，可以参考(http://stackoverflow.com/questions/3051461/git-rebase-keeping-track-of-local-and-remote)。
+<br>另外，使用tortoisemerge进行冲突解决会产生以".orig"为后缀的untracked文件，使用KDiff3进行冲突解决会产生多个备份文件（untracted），此时可以使用git clean来清除untracted的文件，
+```command
+    git clean -f                        //删除 untracked files
+    git clean -fd                       //连untracked的目录也一起删掉
+    git clean -xfd                      //连gitignore的untrack文件/目录也一起删掉（慎用，一般这个是用来删掉编译出来的 .o之类的文件用的）
+```
+在用上述git clean命令前，强烈建议加上-n参数来先看看会删掉哪些文件，防止重要文件被误删。
+```command
+    git clean -nf 
+    git clean -nfd
+    git clean -nxfd 
+```
+更多的merge tool可以参考(http://blog.jobbole.com/97911/)。
+
+### b. Scenario 2
+
+场景描述：代码已经push到Gerrit上，在submit之前的review需要经历一定的时间，而在这个时间段内产生了多个submit，并且可能在这些submit中有一个或多个submit修改了与自己相同的一个或多个文件，因此在rebase的过程中会产生冲突。
+<br>针对工作区内已经被修改过的文件,
+* 被修改了但不需要被提交的文件
+<br>比如在编译过程中被修改的文件或debug过程中产生的debug文件夹, 将不需要*git add*的untracted文件在工作区中手动删除或使用*git clean -f*删除;将在编译过程中被修改的文件使用*git checkout - -file*撤销对工作区修改。
+* 被修改且需要提交的文件
+<br>在进行a操作后依次输入如下命令：
+```command
+    git add .
+    git commit                    //或git commit --amend
+    git fetch                     //千万不要直接使用pull！！！
+    git rebase origin/master                          
+```
+如果在rebase的过程中有报冲突，保持rebase的状态不变（即不要使用git rebase --abort），解决冲突，解决冲突的方法如下:
+<br>
+```command
+    git mergetool
+```
+如果没有安装特定的merge tool的话，此时会有提示"Hit return to start merge resolution tool (tortoisemerge):"，按回车键选择默认合并工具，在合并工具中针对产生冲突的地方进行修改，修改完成后保存修改并关闭工具窗口返回git bash的rebase状态。冲突解决也可以直接手动解决，如果手动解决，在rebase之前需要先执行git add。解决完冲突后依次输入如下命令。
+```command
+    git rebase --continue                        //完成rebase过程
+    git status                                   //查看是否因为使用merge tool而产生了一些.orig文件
+    git clean -nf                                //查看并确认哪些文件将被删除
+    git clean -f                                 //删除这些untratced且不需要git add的文件
+    git push origin HEAD:refs/for/master
+```
+需要注意的是，在确保工作区中没有unstage的文件后进行rebase。成功submit以后在保证工作目录是干净的情况下可以使用git pull更新本地代码，否则谨慎使用git pull。
+### c. Scenario 3
+### d. Scenario 4
+### e. Scenario 5
 
 ------
 
