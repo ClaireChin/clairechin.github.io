@@ -196,9 +196,9 @@ diff工具也可以配置成KBeyond Compare 4。
 
 场景描述：代码已经push到Gerrit上，在submit之前的review需要经历一定的时间，而在这个时间段内产生了多个submit，并且可能在这些submit中有一个或多个submit修改了与自己相同的一个或多个文件，因此在rebase的过程中会产生冲突。
 <br>针对工作区内已经被修改过的文件,
-* 被修改了但不需要被提交的文件
++ 被修改了但不需要被提交的文件
 <br>比如在编译过程中被修改的文件或debug过程中产生的debug文件夹, 将不需要*git add*的untracted文件在工作区中手动删除或使用*git clean -f*删除;将在编译过程中被修改的文件使用*git checkout - -file*撤销对工作区修改。
-* 被修改且需要提交的文件
++ 被修改且需要提交的文件
 
 对于被修改且需要提交的文件来说，
 
@@ -220,6 +220,128 @@ diff工具也可以配置成KBeyond Compare 4。
     git push origin HEAD:refs/for/master
 
 需要注意的是，在确保工作区中没有unstage的文件后进行rebase。成功submit以后在保证工作目录是干净的情况下可以使用git pull更新本地代码，否则谨慎使用git pull。
+
+### c. Scenario 3
+
+场景描述：代码push到Gerrit上以后，review的过程比较长，在等待review完成的过程中需要继续一些task。另外，在该场景处理的过程中不存在任何冲突。
+<br>解决方法：新建branch。
+<br>参考博客来源(http://blog.csdn.net/hustpzb/article/details/7287948)。
+
++ 关于branch
+<br>Git中的分支，其实本质上仅仅是个指向commit对象的可变指针。Git会使用master作为分支的默认名字。在若干次提交后，你其实已经有了一个指向最后一次提交对象的master分支，它在每次提交的时候都会自动向前移动。Git 是通过创建一个新的分支指针来创建一个新的分支的。
+
++ Git是如何知道你当前在哪个分支上工作的呢？
+<br>它保存着一个名为HEAD的特别指针。请注意它和你熟知的许多其他版本控制系统（比如 Subversion 或 CVS）里的HEAD概念大不相同。在Git 中，它是一个指向你正在工作中的本地分支的指针（注：将HEAD想象为当前分支的别名）。
+
++ 值得牢记
+<br>Git会把工作目录的内容恢复为检出某分支时它所指向的那个提交对象的快照。它会自动添加、删除和修改文件以确保目录的内容和你当时提交时完全一样。
+
+
+    git branch branchName                  //新建分支，分支名字是branchName                  
+    git branch                             //查看有哪些分支，并且在当前分支的名字前面会有一个"*"
+    git checkout xxx                       //切换到xxx分支
+    
+在新建的branchName分支上继续task，task完成后准备提交代码,
+
+    git add .                              //task完成后将需要提交的文件添加到index中
+    git commit                             //将index中的内容提交到local respository中
+
+等待原来的review过程结束并成功submit，在这期间针对review可能包含多次修改和重新push，
+
+    git checkout master
+    git status
+    git fetch
+    git rebase origin/master
+    
+无冲突提示，
+
+    git merge branchName                   //将branchName分支合并到master分支
+    //进行fast-forward合并且无冲突提示
+    //git status查看一下状态，应该会提示有一个commit需要push
+    git branch --merged                    //查看已merge的分支状态（相应地，如果建了多个branch，还可以使用git branch --no-merged查看未合并的分支状态）
+    
+确定分支已经合并成功，
+
+    git fetch
+    git rebase origin/master
+    //无冲突提示
+    git push origin HEAD:refs/for/master
+    git branch -d branchName               //删除分支
+
+### d. Scenario 4
+
+场景描述：代码push到gerrit上以后，review的过程比较长，在等待review完成的过程中需要继续一些task。该场景与scenario 3的区别在于进行分支合并的过程中会产生一系列的冲突。
+
+可以输入如下命令，
+
+    git branch不带参数：                  //列出本地已经存在的分支，并且在当前分支的前面加“*”号标记
+    git branch xxx：                      //创建一个新的本地分支xxx，需要注意，此处只是创建分支，不进行分支切换
+    git checkout branchName：             //切换到名字为“branchName”的分支上
+
+在名字为“branchName”的分支上进行一系列修改后，在该分支上,
+
+    git add 
+    git commit
+    
+待master分支代码根据review意见进行修改并成功submit之后，
+
+    git checkout master                  //切换到master分支
+    git fetch                            //在master分支下
+    git rebase origin/master
+    git merge branchName                 //将branchName分支合并到master分支
+
+如果报冲突，手动解决冲突或者git mergetool解决，
+
+    git fetch
+    git rebase origin/master
+    
+报冲突解决冲突，解决方法同上，
+
+    git rebase --continue
+    
+如果提示如下错误并且rebase阶段显示为"REBASE 1/2",
+
+    Applying：Study the review delay problem with branch
+    No changes - did you forget to use 'git add' ?
+    If there is nothing left to stage, chances are that something else 
+    already introduced the same changes; you might want to skip this patch.
+    
+输入命令*git rebase --skip*后（http://wholemeal.co.nz/blog/2010/06/11/no-changes-did-you-forget-to-use-git-add/）
+rebase阶段会由REBASE 1/2变成REBASE 2/2。
+
+    git rebase --continue
+    //报冲突解决冲突
+    git rebase --continue
+    git push origin HEAD:refs/for/master
+    git branch -d branchName
+    
+注意不能在当前所在的branchName分支上删除branchName分支，必须切换到其他分支才能删除branchName分支，比如切换到master再删除branchName分支。如果要删除的分支已经成功合并到当前分支，删除分支的操作会直接成功；如果要删除的分支没有合并到当前所在分支，则会出现提示，如果确定无须合并而要直接删除，则执行命令：git branch –D branchName进行强删。如何查看分支是否合并，可以参考Scenario 3。
+
+### e. Scenario 5
+
+场景描述：你push到Gerrit上的代码需要review，但是正好之前person A push到Gerrit上的代码也正在review的过程中，并且在你push代码到Gerrit上时，由于代码中修改了一部分与person A相同的代码，person A和你的Gerritreview页面均出现confilct提示。
+或者，你push到Gerrit上的代码需要review，但是在你push代码到Gerrit上之后，person A也将修改的代码push到Gerrit上进行review，并且person A修改了一部分与你处于相同位置的代码，person A和你的Gerrit review页面均出现confilct提示。
+
++ Case 1： person A的review先完成并且submit
+<br>自己的Gerrit页面会出现"Cannot Merge"的提示。
+
+此时需要在本地解决冲突并重新push到remote repository，
+
+    git fetch
+    git rebase origin/master
+    git mergetool
+    git rebase --continue
+
+清理不必要的文件，
+
+    git status
+    git clean -nf
+    git clean -f
+    git push origin HEAD:refs/for/master
+
++ Case 2：你的review先完成
+<p>那么直接submit就行了。
+
 
 ------
 
