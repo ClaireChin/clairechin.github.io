@@ -233,9 +233,7 @@ diff工具也可以配置成KBeyond Compare 4。
 + Git是如何知道你当前在哪个分支上工作的呢？
 <br>它保存着一个名为HEAD的特别指针。请注意它和你熟知的许多其他版本控制系统（比如 Subversion 或 CVS）里的HEAD概念大不相同。在Git 中，它是一个指向你正在工作中的本地分支的指针（注：将HEAD想象为当前分支的别名）。
 
-+ 值得牢记
-<br>Git会把工作目录的内容恢复为检出某分支时它所指向的那个提交对象的快照。它会自动添加、删除和修改文件以确保目录的内容和你当时提交时完全一样。
-
+值得牢记的是，Git会把工作目录的内容恢复为检出某分支时它所指向的那个提交对象的快照。它会自动添加、删除和修改文件以确保目录的内容和你当时提交时完全一样。
 
     git branch branchName                  //新建分支，分支名字是branchName                  
     git branch                             //查看有哪些分支，并且在当前分支的名字前面会有一个"*"
@@ -340,7 +338,7 @@ rebase阶段会由REBASE 1/2变成REBASE 2/2。
     git push origin HEAD:refs/for/master
 
 + Case 2：你的review先完成
-<p>那么直接submit就行了。
+<br>那么直接submit就行了。
 
 
 ------
