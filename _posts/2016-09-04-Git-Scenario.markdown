@@ -21,6 +21,7 @@ tags:
 
 > * 基本概念（Basic concepts）
 > * 主要使用场景
+> * 可能会遇到的错误提示
 
 ![git-logo](http://www.theziqi.cn/wp-content/uploads/2013/04/gitcafelogo.png)
 
@@ -340,6 +341,25 @@ rebase阶段会由REBASE 1/2变成REBASE 2/2。
 + Case 2：你的review先完成
 <br>那么直接submit就行了。
 
+## 可能会遇到的错误提示
+
+### Case 1
+最近我遇到了这样的一类错误提示，它们分别是在这样的两种情况下出现的：在我准备push代码的瞬间虚拟机到期被摧毁（这有够倒霉的是不是）以及虚拟机的mount目录下有待push的commit节点且虚拟机并未到期但电脑突然蓝屏。当你重新创建虚拟机并准备使用*git status*并查看当前状态时提示错误，
+
+    error: object file .git/objects/37/972f0e113f54b1db191e3e3e17fb0f406abdf3 is empty
+    error: object file .git/objects/37/972f0e113f54b1db191e3e3e17fb0f406abdf3 is empty
+    fatal: loose object 37972f0e113f54b1db191e3e3e17fb0f406abdf3 (stored in .git/objects/37/972f0e113f54b1db191e3e3e17fb0f406abdf3) is corrupt
+
+那么可以输入以下的代码来拯救崩溃的object，
+
+    rm -fr .git
+    git init
+    git remote add origin [your-git-remote-url]
+    git fetch
+    git reset --mixed origin/master
+    git branch --set-upstream-to=origin/master master  
+    
+此时你可以再视具体情况commit代码。
 
 ------
 
