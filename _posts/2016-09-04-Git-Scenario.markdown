@@ -361,6 +361,13 @@ rebase阶段会由REBASE 1/2变成REBASE 2/2。
     
 此时你可以再视具体情况commit代码。
 
+### Case 2
+在Gerrit上的某次提交导致测试失败，在Gerrit review页面将该次提交revert，在本地更新代码后导致revert之前所作的修改消失。对应的解决方法是，
+
+    git cherry-pick xxxx//在Gerrit review页面的右上角Download处复制与git cherry-pick有关的那条命令并在你的当前工作目录执行
+    git commit --amend, 在commit msg编辑页面删除change id所在的那一行
+    再次执行git commit --amend//此时重新生成了新的change id，在当前commit节点上继续进行修改
+
 ------
 
 作者：ClaireChin     
