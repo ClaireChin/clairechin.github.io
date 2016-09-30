@@ -18,7 +18,6 @@ tags:
 
 > * 当涂太白游记
 
-![libai-tomb](http://s9.sinaimg.cn/middle/7a99b450gaedf9f0508d8&690)
 
 ## 当涂太白游记
   2013年7月6日作于安徽当涂太白墓。
