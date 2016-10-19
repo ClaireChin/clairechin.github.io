@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "Makefile书写"
+title:      "Makefile书写学习part one"
 subtitle:   "一起学习makefile"
 date:       2016-10-18
 author:     "ClaireChin"
@@ -11,15 +11,20 @@ tags:
     - makefile
     - build
 ---
->在linux环境下工作的程序员如果不会书写Makefile，就不是合格的linux程序员。
+>在linux环境下工作的程序员如果不会通过书写Makefile来创建和构造工程，应该不能算是一位合格的linux程序员。
 
 # How to write a Makefile
 
 ------
 
-文中以"//"开始的内容表示对相应命令的注释。本文主要由基本概念和主要应用场景两部分组成。
-
 > * 基本概念（Basic concepts）
+
+> * 定义变量
+
+> * Makefile自动推导
+
+> * 另类风格的Makefile
+
 
 ------
 
@@ -74,6 +79,32 @@ foo.h的内容是，
     }
 
 针对较长行，可以使用反斜线（\）来分解为多行，这样可以使Makefile书写清晰、容易阅读理解。**但需要注意：反斜线之后不能有空格！**
+<br>《GNU make中文手册》所举的例子如下所示：
+
+    #sample Makefile
+    edit : main.o kbd.o command.o display.o \
+	 insert.o search.o files.o utils.o
+    	cc -o edit main.o kbd.o command.o display.o \
+    		insert.o search.o files.o utils.o
+    main.o : main.c defs.h
+    	cc -c main.c
+    kbd.o : kbd.c defs.h command.h
+    	cc -c kbd.c
+    command.o : command.c defs.h command.h
+    	cc -c command.c
+    display.o : display.c defs.h buffer.h
+    	cc -c display.c
+    insert.o : insert.c defs.h buffer.h
+    	cc -c insert.c
+    search.o : search.c defs.h buffer.h
+    	cc -c search.c
+    files.o : files.c defs.h buffer.h command.h
+    	cc -c files.c
+    utils.o : utils.c defs.h
+    	cc -c utils.c
+    clean :
+    	rm edit main.o kbd.o command.o display.o \
+    		insert.o search.o files.o utils.o
 
 ### Makefile的工作方式
 
@@ -86,3 +117,18 @@ foo.h的内容是，
 5. 目标文件“try”存在，它比它的任何一个依赖文件都“更新”，那么什么也不做。
 
 目标文件".o"的处理也是遵循3，4，5的处理方式。
+
+## 定义变量
+
+针对《GNU make中文手册》中所举的例子可以发现，在目标edit所在的规则中，.o文件列表出现了两次，在这种情况下可以定义一个代替.o文件列表的变量，例如
+“objects”、“OBJECTS”、“objs”、“OBJS”、“obj”或者“OBJ等。因此在上面的Makefile中可以添加这么一项，
+
+    objects = main.o kbd.o command.o display.o \
+        insert.o search.o files.o utils.o
+
+Makefile中后续用到.o文件列表时可以使用$(objects)来表示。
+<br>当需要增减.o文件时直接修改变量objects的定义即可。
+
+## Makefile自动推导
+
+## 另类风格的Makefile
