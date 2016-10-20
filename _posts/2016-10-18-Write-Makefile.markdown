@@ -11,7 +11,8 @@ tags:
     - makefile
     - build
 ---
->在linux环境下工作的程序员如果不会通过书写Makefile来创建和构造工程，应该不能算是一位合格的linux程序员。
+>在linux环境下工作的程序员如果不会通过书写Makefile来创建和构造工程，应该不能算是一位合格的程序员。
+<br>linux文件中"#"起头的字符串表示注释。
 
 # How to write a Makefile
 
@@ -24,6 +25,8 @@ tags:
 > * Makefile自动推导
 
 > * 另类风格的Makefile
+
+> * 参考资料
 
 
 ------
@@ -131,4 +134,47 @@ Makefile中后续用到.o文件列表时可以使用$(objects)来表示。
 
 ## Makefile自动推导
 
+Makefile中给出[.o]文件名时，make会自动为该文件推导合适的依赖文件（对应的.o文件）及依赖关系后面的命令，因此只需要给出那些特定的规则描述（.o目标需要的.h文件）。上述Makefile可以修改成如下所示：
+
+	# sample Makefile
+	objects = main.o kbd.o command.o display.o \
+	       insert.o search.o files.o utils.o
+	edit : $(objects)
+		cc -o edit $(objects)
+	main.o : defs.h
+	kbd.o : defs.h command.h
+	command.o : defs.h command.h
+	display.o : defs.h buffer.h
+	insert.o : defs.h buffer.h
+	search.o : defs.h buffer.h
+	files.o : defs.h buffer.h command.h
+	utils.o : defs.h
+	.PHONY : clean
+	clean :
+		rm edit $(objects)
+	
+上述即是Makefile的隐晦规则，其中".PHONY"表示"clean"是个伪目标，关于伪目标，后续的博客中再进行介绍。
+
 ## 另类风格的Makefile
+
+上述Makefile的写法是根据**依赖**对规则进行分组的，也可以将Makefile根据**目标**对规则进行分组。
+
+	#sample Makefile
+	objects = main.o kbd.o command.o display.o \
+	       insert.o search.o files.o utils.o
+	edit : $(objects)
+		cc -o edit $(objects)
+	$(objects) : defs.h
+	kbd.o command.o files.o : command.h
+	display.o insert.o search.o files.o : buffer.h
+	.PHONY : clean
+	clean :
+		rm edit $(objects)
+	
+事实上，这种风格的Makefile并不被推荐，将不同目标的依赖放在同一个规则中描述会使依赖关系变得混乱，并且可读性较差。
+<br>**此处需要强调一下书写规则的建议方式：“单目标，多依赖。就是说尽量要做到一个规则中只存在一个目标文件，可有多个依赖文件。尽量避免使用多目标，单依赖的方式。”**
+
+## 参考资料
+
+* 《GNU make中文手册》
+*  <http://wiki.ubuntu.org.cn/%E8%B7%9F%E6%88%91%E4%B8%80%E8%B5%B7%E5%86%99Makefile:MakeFile%E4%BB%8B%E7%BB%8D>
