@@ -203,7 +203,7 @@ body{
 	background: #fafafa;
 }
 header{
-	background: #FFFF6F;
+	background: #faef6b;
 	text-align: center;
 	height: 620px;
 	min-width: 100%;
@@ -213,7 +213,7 @@ header{
 }
 header h1 {
     font-size: 70px;
-    color: white;
+    color: blue;
     font-weight: 100;
     margin-top: 26px;
     margin-bottom: 10px;
