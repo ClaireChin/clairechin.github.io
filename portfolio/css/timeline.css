@@ -11,7 +11,7 @@ body, html {
 }
 
 .main a{
-	color:#FFFF6F;
+	color:#6b70fa;
 }
 .main a:hover {
 	/*color: #000;*/
@@ -203,7 +203,7 @@ body{
 	background: #fafafa;
 }
 header{
-	background: #6ca8fb;
+	background: #FFFF6F;
 	text-align: center;
 	height: 620px;
 	min-width: 100%;
