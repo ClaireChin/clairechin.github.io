@@ -27,7 +27,7 @@ tags:
     
 或者
 
-     $(FUNCTION ARGUMENTS)
+     ${FUNCTION ARGUMENTS}
      
 其中，"FUNCTION"是需要调用的函数名，并且它是make内嵌的函数名；"ARGUMENTS"表示函数的参数，推荐函数和参数之间使用一个空格分开，如果使用多个参数，则每个
 参数之间使用逗号隔开。
