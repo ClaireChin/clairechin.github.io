@@ -2,9 +2,9 @@
 layout:     post
 title:      "Makefile书写学习part four"
 subtitle:   "一起学习makefile"
-date:       2016-12-02
+date:       2016-12-05
 author:     "ClaireChin"
-header-img: "img/post-bg-make-guile.png"
+header-img: "img/post-bg-yourname.jpg"
 catalog: true
 tags:
     - linux
@@ -120,3 +120,103 @@ call函数对参数的数目没有限制，也可以没有参数值，没有参�
       @echo $(FOO)
       @echo $(value FOO)
 
+## eval函数
+
+### 函数功能
+
+函数"eval"对它的参数进行展开，展开的结果作为Makefile的一部分，make可以对展开内容进行语法解析。展开的结果可以包含一个新变量、目标、隐含规则或者是明确规则等。
+
+### 返回值
+
+函数"eval"的返回值时空，也可以说没有返回值。
+
+### 函数说明
+
+"eval"函数执行时会对它的参数进行两次展开。第一次展开过程发是由函数本身完成的，第二次是函数展开后的结果被作为Makefile内容时由make解析时展开的。
+
+### 举例
+
+     # sample Makefile
+     PROGRAMS = server client
+     server_OBJS = server.o server_priv.o server_access.o
+     server_LIBS = priv protocol
+     client_OBJS = client.o client_api.o client_mem.o
+     client_LIBS = protocol
+     # Everything after this is generic
+     .PHONY: all
+     all: $(PROGRAMS)
+     define PROGRAM_template
+     $(1): $$($(1)_OBJ) $$($(1)_LIBS:%=-l%)
+     ALL_OBJS += $$($(1)_OBJS)
+     endef
+     $(foreach prog,$(PROGRAMS),$(eval $(call PROGRAM_template,$(prog))))
+     $(PROGRAMS):
+        $(LINK.o) $^ $(LDLIBS) -o $@
+     clean:
+        rm -f $(ALL_OBJS) $(PROGRAMS)
+        
+"$(foreach prog,$(PROGRAM),$(eval $(call PROGRAM_template,$(prog))))"展开为：
+
+     server : $(server_OBJS) –l$(server_LIBS)
+     client : $(client_OBJS) –l$(client_LIBS)
+     
+## origin函数
+
+### 函数语法
+
+     $(origin VARIABLE)
+     
+### 函数功能
+
+函数"origin"查询参数"VARIABLE"（变量名）的出处。
+
+### 函数说明
+
+"VARIABLE"是一个变量名而不是一个变量的引用。因此通常它不包含"$"（计算的变量名例外）。
+
+### 返回值
+
+返回值有以下几种情况：
+（1）undefined<br>
+变量"VARIABLE"没有被定义。
+
+（2）default<br>
+变量"VARIABLE"默认定义（内嵌变量）。如"CC"、"MAKE"、"RM"等变量。如果在Makefile中重新定义这些变量，函数返回值将相应发生变化。
+
+（3）environment<br>
+变量"VARIABLE"是系统环境变量，并且make没有使用命令行选项"-e"。
+
+（4）environment override<br>
+变量"VARIABLE"是一个系统环境变量，并且make使用了命令行选项"-e"。Makefile中存在一个同名的变量定义，使用"make -e"时环境变量值替代了文件中的变量定义。
+
+（5）file<br>
+变量"VARIABLE"在某一个makefile文件中定义。
+
+（6）command line<br>
+变量"VARIABLE"在命令行中定义。
+
+（7）override<br>
+变量"VARIABLE"在makefile文件中定义并使用"override"指示符声明。
+
+（8）automatic<br>
+变量"VARIABLE"是自动化变量。
+
+## shell函数
+
+### 函数功能
+
+函数"shell"所实现的功能和shell中的引用（''）相同。实现对命令的扩展。这就意味着需要一个shell命令作为此函数的参数。
+
+### 返回值
+
+函数"shell"的参数（一个shell命令）在shell环境中的执行结果。
+
+### 函数说明
+
+函数本身的返回值是其参数的执行结果，没有进行任何处理。对结果的处理是由make进行的。当对函数的引用出现在规则的命令行中，命令行在执行时函数才被展开。
+展开时函数参数（shell命令）的执行是在另外一个shell进程中完成的，因此需要对出现在规则命令行的多级“shell”函数引用需要谨慎处理，否则会影响效率。
+
+## 举例
+
+     contents := $(shell cat foo)
+     files := $(shell echo *.c)
