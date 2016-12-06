@@ -4,7 +4,7 @@ title:      "Makefile书写学习part five"
 subtitle:   "一起学习makefile"
 date:       2016-12-06
 author:     "ClaireChin"
-header-img: "img/post-bg-yourname5.jpg"
+header-img: "img/post-bg-yourname5.png"
 catalog: true
 tags:
     - linux
