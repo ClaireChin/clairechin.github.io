@@ -42,11 +42,17 @@ Makefile里包含了这些内容，
 
 ## Makefile命名
 
-make会在文件目录中依次寻找以"GNUmakefile"、"Makefile"和"makefile"为文件名的文件，"Makefile"因大写字母比较显著而被推荐使用，"GNUmakefile"因为只有
-"GNU make"才能识别而不被推荐。当make在工作目录中无法找到以上三个文件中的任何一个时，它将不读取其他任何文件作为解析对象。
+make会在文件目录中依次寻找以"GNUmakefile"、"Makefile"和"makefile"为文件名的文件，"Makefile"因大写字母比较显著而被推荐使用，"GNUmakefile"因为只有"GNU make"才能识别而不被推荐。当make在工作目录中无法找到以上三个文件中的任何一个时，它将不读取其他任何文件作为解析对象。
 
-当makefile的命名不是这三种文件中的任意一个时，可以通过"make -f NAME"或"make --file=NAME"命令来指定需要make的文件名"NAME"。当通过这种方式读取
-makefile文件时，make就不再自动查找这三个标准命名的makefile文件。
+当makefile的命名不是这三种文件中的任意一个时，可以通过
+
+     make -f NAME
+
+或
+
+     make --file=NAME
+
+命令来指定需要make的文件名"NAME"。当然也可以使用"-f"或"--file"选项来指定多个makefile文件，多个makefile文件将会被按照指定的顺序进行链接并被make解析执行。当通过"-f"或"--file"选项来读取makefile文件时，make就不再自动查找这三个标准命名的makefile文件。
 
 ## 包含其他的Makefile
 
@@ -83,14 +89,7 @@ make程序在处理指示符include时，将暂停对当前使用指示符“inc
      
 这种方式下当所要包含的文件不存在时不会有错误提示、make也不会退出，除此之外，效果与第一种方式相同。
 
-## Makefiles环境变量
 
-如果为当前环境定义了环境变量"Makefiles"，make在执行时会首先根据该环境变量的值来获取需要读入的Makefile文件，执行一个类似"include"的动作。
-但需要注意，它与"include"是有区别的：环境变量指定的makefile文件中的目标将不会作为make的终极目标；在执行make时，如果既不能找到也不能创建
-环境变量中指定的make文件时，make不会提示错误；make在执行时，首先读取环境变量"Makefiles"中的文件，然后才是当前工作目录下的make文件，
-而"include"则是在make发现此关键字的时、暂停正在读取的文件而转去读取“include”所指定的文件。
-
-非常不推荐设置这个环境变量，可以想象，当进行多级make调用时，每一级make都需要读取该环境变量中的文件，会使调用关系出现混乱。
 
 ## 参考资料
 
