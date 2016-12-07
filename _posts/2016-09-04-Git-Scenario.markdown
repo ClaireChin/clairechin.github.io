@@ -4,7 +4,7 @@ title:      "Git基础应用"
 subtitle:   "一些简单场景下的git命令使用"
 date:       2016-09-04
 author:     "ClaireChin"
-header-img: "img/post-bg-alitrip.jpg"
+header-img: "img/post-bg-git-scenario.jpg"
 catalog: true
 tags:
     - git
