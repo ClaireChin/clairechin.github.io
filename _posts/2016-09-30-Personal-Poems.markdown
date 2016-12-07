@@ -4,7 +4,7 @@ title:      "诗和远方"
 subtitle:   "九州风情录"
 date:       2016-09-30
 author:     "ClaireChin"
-header-img: "img/poem-distant-place.jpg"
+header-img: "img/post-bg-poem.png"
 catalog: true
 tags:
     - poem
