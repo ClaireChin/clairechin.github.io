@@ -20,7 +20,9 @@ tags:
 文中以"//"开始的内容表示对相应命令的注释。本文主要由基本概念和主要应用场景两部分组成。
 
 > * 基本概念（Basic concepts）
+
 > * 主要使用场景
+
 > * 可能会遇到的错误提示
 
 ![git-logo](http://www.theziqi.cn/wp-content/uploads/2013/04/gitcafelogo.png)
@@ -108,15 +110,13 @@ git stash list命令可以将当前的Git栈信息打印出来，你只需要将
     （2） HEAD指向当前工作的branch，master不一定指向当前工作的branch；
     （3） git push origin 本地分支A : 远程分支B //push 本地分支A到远程库origin的分支B。
     
-一些git push命令的介绍：<br>
-* git push origin master:master 
-<br>在local repository中找到名字为master的branch，使用它去更新remote repository下名字为master的branch，如果remote repository下不存在名字是master的branch，那么新建一个。"git push origin master"省略destination等价于git push origin master:master。
-* git push origin master:refs/for/mybranch 
-<br>在local repository中找到名字为master的branch，用它去更新remote repository下面名字为mybranch的branch。
-* git push origin HEAD:refs/for/mybranch
-<br>HEAD指向当前工作的branch，master不一定指向当前工作的branch，推荐使用。
-* git push origin    :mybranch 
-<br>在origin repository里面查找mybranch，删除它。用一个空的去更新它，就相当于删除了。
+一些git push命令的介绍：
+
+    git push origin master:master //在local repository中找到名字为master的branch，使用它去更新remote repository下名字为master的branch，如果remote repository下不存在名字是master的branch，那么新建一个。    
+    git push origin master //省略destination等价于git push origin master:master。 
+    git push origin master:refs/for/mybranch //在local repository中找到名字为master的branch，用它去更新remote repository下面名字为mybranch的branch。
+    git push origin HEAD:refs/for/mybranch //HEAD指向当前工作的branch，master不一定指向当前工作的branch，推荐使用。
+    git push origin    :mybranch //在origin repository里面查找mybranch，删除它。用一个空的去更新它，就相当于删除了。
 
 通常不建议使用git pull，具体原因可以查看下面的网址，
 <br>git fetch and merge, don't pull (http://www.oschina.net/translate/git-fetch-and-merge?cmp)。
