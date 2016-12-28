@@ -108,11 +108,12 @@ git stash list命令可以将当前的Git栈信息打印出来，你只需要将
     （2） HEAD指向当前工作的branch，master不一定指向当前工作的branch；
     （3） git push origin 本地分支A : 远程分支B //push 本地分支A到远程库origin的分支B。
     
-一些git push命令的介绍：
+一些git push命令的介绍：<br>
+
 * git push origin master:master 
-<br>//在local repository中找到名字为master的branch，使用它去更新remote repository下名字为master的branch，如果remote repository下不存在名字是master的branch，那么新建一个。
+<br>在local repository中找到名字为master的branch，使用它去更新remote repository下名字为master的branch，如果remote repository下不存在名字是master的branch，那么新建一个。
 * git push origin master     
-//省略<dst>等价于*git push origin master:master*。
+<br>省略<dst>等价于*git push origin master:master*。
 * git push origin master:refs/for/mybranch 
 <br>//在local repository中找到名字为master的branch，用它去更新remote repository下面名字为mybranch的branch。
 * git push origin HEAD:refs/for/mybranch
@@ -124,6 +125,7 @@ git stash list命令可以将当前的Git栈信息打印出来，你只需要将
 <br>git fetch and merge, don't pull (http://www.oschina.net/translate/git-fetch-and-merge?cmp)。
 
 ## 主要使用场景
+
 ### a. Scenario 1
 
 场景描述：Gerrit上没有需要review的代码，当前的工作目录的修改可能是基于最新版本的代码或者与最新版本的代码已经差了好几个他人提交的submit，准备提交工作目录的修改到Gerrit上。
