@@ -110,9 +110,7 @@ git stash list命令可以将当前的Git栈信息打印出来，你只需要将
     
 一些git push命令的介绍：<br>
 * git push origin master:master 
-<br>在local repository中找到名字为master的branch，使用它去更新remote repository下名字为master的branch，如果remote repository下不存在名字是master的branch，那么新建一个。
-* git push origin master     
-<br>省略<dst>等价于"git push origin master:master"。
+<br>在local repository中找到名字为master的branch，使用它去更新remote repository下名字为master的branch，如果remote repository下不存在名字是master的branch，那么新建一个。"git push origin master"省略destination等价于git push origin master:master。
 * git push origin master:refs/for/mybranch 
 <br>在local repository中找到名字为master的branch，用它去更新remote repository下面名字为mybranch的branch。
 * git push origin HEAD:refs/for/mybranch
