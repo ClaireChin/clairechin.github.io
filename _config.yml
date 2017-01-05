@@ -48,17 +48,7 @@ kramdown:
 
 
 # Disqus settings
-disqus_username: ClaireChin
-
-#### Widgets
-widgets: 
-- recent_posts
-- category
-- archive
-- tagcloud 
-- recent_comment
-- links
-- rss
+disqus_username: clairechin
 
 # Duoshuo settings
 # duoshuo_username: mollychin
