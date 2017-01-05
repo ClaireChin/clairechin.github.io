@@ -61,23 +61,7 @@ layout: default
 				{{ content }}
 
                 <hr>
-
-	    	<% if (page.comments){ %>
-		<section id="comment">
-		  <h1 class="title"><%= __('comment') %></h1>
-
-		  <% if (theme.comment_provider == "facebook") {
-		      if (theme.facebook) { %>
-		      <%- partial('_partial/facebook_comment', {fbConfig: theme.facebook}) %>
-		      <% } %>
-		  <% } else if(site.disqus_username) { %>
-		  <div id="disqus_thread">
-		    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-		  </div>
-		  <% } %>
-		</section>
-		<% } %>
-
+	    	
                 <ul class="pager">
                     {% if page.previous.url %}
                     <li class="previous">
