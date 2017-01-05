@@ -4,7 +4,7 @@ SEOTitle: 凯风的博客 | Claire's Blog
 header-img: img/home-bg.jpg
 email: mollyqinsz@g163.com
 description: "关于前端与设计、Linux | 凯风，Web & Mobile Lover，Front-End Engineer，UX Designer | 这里是 @ClaireChin凯风 的个人博客，与你一起发现更大的世界。"
-keyword: "凯风, ClaireChin凯风, ClaireChin, 凯风的博客, 个人网站, 互联网, 前端, 设计, 产品"
+keyword: "凯风, ClaireChin凯风, ClaireChin, 凯风的博客, 个人网站, 前端"
 url: "http://mollychin.com"              # your host, for absolute URL
 baseurl: ""                             # for example, '/blog' if your blog hosted on 'host/blog'
 
@@ -49,6 +49,16 @@ kramdown:
 
 # Disqus settings
 disqus_username: ClaireChin
+
+#### Widgets
+widgets: 
+- recent_posts
+- category
+- archive
+- tagcloud 
+- recent_comment
+- links
+- rss
 
 # Duoshuo settings
 # duoshuo_username: mollychin
