@@ -14,8 +14,7 @@ tags:
 
 <h2>{{ page.title }}</h2>
 <h3>前言</h3>
-<p>最近突然想起来，在工作上学习和使用linux操作系统应该也有大半年的光景了，虽说vim模式用得仍像坨shit，但是学习就是不断总结和分析的过程，因此就算腆着一张门外汉的老脸也要拼着留下些记录来。
-总结下来就是这将是一篇杂乱无章的linux命令记录文和路径分析文。</p>
+<p>最近突然想起来，在工作上学习和使用linux操作系统也有大半年的光景了，学习是不断总结和分析的过程，因此在这里做一些笔记。</p>
 
 <h3>Linux命令记录</h3>
 <ul>
@@ -50,6 +49,37 @@ tags:
     可以使用$echo $LD_LIBRARY_PATH来查看LD_LIBRARY_PATH的内容。
     <li>evince</li>
     该命令可以打开pdf文件。
+    <li>find</li>
+    find是最常见和最强大的查找命令，你可以用它找到任何你想找的文件。
+    find的使用格式为：$ find <指定目录> <指定条件> <指定动作>。
+    <td colspan=#>
+    <table border=1 align="center">
+    <tr><td colspan=4>关于find的参数</td>
+    <tr>
+        <td>指定目录</td>
+        <td>所要搜索的目录及其所有子目录。默认为当前目录。</td>       
+    <tr>
+        <td>指定条件</td>
+        <td>所要搜索的文件的特征。</td>>
+    <tr>
+        <td>指定动作</td>
+        <td>对搜索结果进行特定的处理。</td>>
+    <tr>
+    </table>
+    <td colspan=#>
+    <table border=1 align="center">
+    <tr><td colspan=4>find使用实例</td>
+    <tr>
+        <td>$ find . -name 'my*'</td>
+        <td>搜索当前目录（含子目录）中，所有文件名以my开头的文件。</td>       
+    <tr>
+        <td>$ find . -name 'my*' -ls</td>
+        <td>搜索当前目录中，所有文件名以my开头的文件，并显示它们的详细信息。</td>>
+    <tr>
+        <td>$ find . -type f -mmin -10</td>
+        <td>搜索当前目录中，所有过去10分钟中更新过的普通文件。如果不加-type f参数，则搜索普通文件+特殊文件+目录。</td>>
+    <tr>
+    </table>
     <li>firefox</li>
     可以使用firefox命令打开html文件。firefox是一个shell脚本写的命令，根据参数设置环境，为启动firefox-bin做好准备工作。
     <li>grep</li>
@@ -59,6 +89,24 @@ tags:
     ls命令就是list的缩写，缺省参数时ls用来打印出当前目录的清单，如果ls指定其他目录，那么就会显示指定目录里的文件及文件夹清单。 
     通过ls命令不仅可以查看linux文件夹包含的文件，还可以查看文件权限(包括目录、文件夹、文件权限)，查看目录信息等等。
     ls命令的常用参数有-a, -l等。
+    <li>locate</li>
+    locate命令实际上是"find -name"的另一种写法，但是要比后者快得多。它不搜索具体目录，而是搜索一个数据库（/var/lib/locatedb），
+    这个数据库中含有本地所有文件信息。Linux系统自动创建这个数据库，并且每天自动更新一次，所以使用locate命令查不到最新变动过的文件。
+    为了避免这种情况，可以在使用locate之前，先使用updatedb命令，手动更新数据库。
+    <td colspan=#>
+    <table border=1 align="center">
+    <tr><td colspan=4>locate使用实例</td>
+    <tr>
+        <td>$ locate /etc/sh</td>
+        <td>搜索etc目录下所有以sh开头的文件。</td>       
+    <tr>
+        <td>$ locate ~/m</td>
+        <td>搜索用户主目录下，所有以m开头的文件。</td>>
+    <tr>
+        <td>$ locate -i ~/m</td>
+        <td>搜索用户主目录下，所有以m开头的文件，并且忽略大小写。</td>>
+    <tr>
+    </table>
     <li>mkdir</li>
     该命令用来创建指定的名称的目录，要求创建目录的用户在当前目录中具有写权限，并且指定的目录名不能是当前目录中已有的目录。
     <li>mv</li>
@@ -81,6 +129,23 @@ tags:
     如果在前台执行该命令，它将独占前台，直到用户终止该程序为止。
     比较准确的说，top命令提供了实时的对系统处理器的状态监视。它将显示系统中CPU最“敏感”的任务列表。该命令可以按CPU使用。内存使用和执行时间对任务进行排序；
     而且该命令的很多特性都可以通过交互式命令或者在个人定制文件中进行设定。
+    <li>type</li>
+    type命令是用来区分某个命令到底是由shell自带的，还是由shell外部的独立二进制文件提供的。如果一个命令是外部命令，那么使用-p参数，会显示该命令的路径，
+    相当于which命令。
+    <td colspan=#>
+    <table border=1 align="center">
+    <tr><td colspan=4>type使用实例</td>
+    <tr>
+        <td>$ type cd/td>
+        <td>系统会提示"cd is a shell builtin"。</td>       
+    <tr>
+        <td>$ type grep/td>
+        <td>系统会提示，grep是一个外部命令，并显示该命令的路径，例如"grep is /bin/grep"。</td>>
+    <tr>
+        <td>$ type -p grep/td>
+        <td>加上-p参数后，就相当于which命令。</td>>
+    <tr>
+    </table>
     <li>ssh</li>
     ssh，即secure shell。用于远程登录linux主机，我用得最多的是ssh -i xxx.pem xxx@ip address。
     <li>source</li>
