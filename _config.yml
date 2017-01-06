@@ -45,10 +45,6 @@ markdown: kramdown
 kramdown:
   input: GFM                            # use Github Flavored Markdown !important
 
-comment_provider: disqus
-
-# Disqus settings
-disqus_username: ClaireChin
 
 # Analytics settings
 # Baidu Analytics
@@ -64,6 +60,9 @@ sidebar: true                           # whether or not using Sidebar.
 sidebar-about-description: "I'd like to be a free and easy girl."
 sidebar-avatar: /img/avatar-saduomi.jpg      # use absolute URL, seeing it's used in both `/` and `/about/`
 
+
+# Disqus settings
+disqus_username: clairechin
 
 
 # Featured Tags
