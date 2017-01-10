@@ -54,12 +54,12 @@ tags:
       })();
     </script>
   
- 这边得把这该死的[disqus_shortname](http://www.jianshu.com)提出来说一说，实际上它就对应你"Configure Disqus for Your Site"页面的
- ![Shortname](/img/post-sample-disqus-shortname.png)
+这边得把这该死的[disqus_shortname](https://help.disqus.com/customer/portal/articles/466208)提出来说一说，实际上它就对应你"Configure Disqus for Your Site"页面的
+![Shortname](/img/post-sample-disqus-shortname.png)
  
- 然而我一直把它理解为了![这个](/img/post-sample-wrong_understanding.png)
+然而我一直把它理解为了![这个](/img/post-sample-wrong_understanding.png)
  
- 所以说做一件事情，如果一开始的出发点或者理解就错了，那真是很要命的！
+所以说做一件事情，如果一开始的出发点或者理解就错了，那真是很要命的！
 
  
- 最后，非常感谢[小兀](https://disqus.com/by/linxiaowu/)的倾力相助。
+最后，非常感谢[小兀](https://disqus.com/by/linxiaowu/)的倾力相助。
