@@ -3,7 +3,7 @@ title: Claire's Blog
 SEOTitle: 凯风的博客 | Claire's Blog
 header-img: img/home-bg.jpg
 email: mollyqinsz@g163.com
-description: "关于前端开发、Linux | 凯风，Web Lover，DSP Engineer | 这里是 @ClaireChin凯风 的个人博客，愿与你共同进步。"
+description: "关于前端开发、Linux | 凯风，Web frontend Lover，DSP Engineer | 这里是 @ClaireChin凯风 的个人博客，愿与你共同进步。"
 keyword: "凯风, ClaireChin凯风, ClaireChin, 凯风的博客, 个人网站, 前端"
 url: "http://mollychin.com"              # your host, for absolute URL
 baseurl: ""                             # for example, '/blog' if your blog hosted on 'host/blog'
@@ -12,8 +12,8 @@ baseurl: ""                             # for example, '/blog' if your blog host
 
 # SNS settings
 RSS: false
-weibo_username:     Clairechin凯风
-zhihu_username:     Clairechin
+weibo_username:     u/1953836627
+zhihu_username:     ClaireChin
 github_username:    ClaireChin
 #twitter_username:  
 facebook_username:  Claire Chin
